@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Iot - viz </title>
+	<link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+	<header>
+		<div class="tittle">Energy consumption and motion sensing</div>
+		<div class="nav_cont">
+			<div data-time="_9h" class="nav_item active">
+				<div class="text">Last 9 hours</div>
+			</div>
+			<div data-time="_24h" class="nav_item">
+				<div class="text">Last 24 hours</div>
+			</div>
+			<div data-time="_72h" class="nav_item">
+				<div class="text">Last 3 days</div>
+			</div>
+			<div data-time="_120h" class="nav_item">
+				<div class="text">Last 5 days</div>
+			</div>
+			<div data-time="_1m" class="nav_item">
+				<div class="text">Last month</div>
+			</div>
+		</div>
+	</header>
+
+	<div class="chart_tittle">
+		<div class="text"> <span>Total consumption in the <span id="current_query"></span>: <span id="total_consum"></span></span> <span>| Average brightness: <span id="ave_brig"></span></span></div>
+	</div>
+
+	<div class="" id="stacked_chart"></div>
+	
+	<div class="" id="symbologyContainer"></div>
+	<div class="loader">
+		<div class="loader-inner line-scale">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+	</div>
+	
+	<div class="" id="light_chart"></div>
+
+	<!-- <header>
+		<div class="text">USE AND MOTION SENDING <span>| Rooms Level 1</span></div>
+	</header>
+	<div class="" id="motion_chart"></div> -->
+
+
+	<!-- <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script> -->
+	<script src="app.js"></script>
+</body>
+</html>
