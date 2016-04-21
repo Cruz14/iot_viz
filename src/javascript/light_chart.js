@@ -2,7 +2,7 @@ var d3 = require('d3');
 var variableWidthSTR = d3.select("body").style("width");
 var variableWidth = parseInt(variableWidthSTR.substring(0, variableWidthSTR.length - 2));
 
-var margin = {top: 20, right: 40, bottom: 30, left: 40},
+var margin = {top: 20, right: 60, bottom: 30, left: 100},
     width = variableWidth - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
@@ -16,7 +16,7 @@ var sizeOnView = {
 
 // chart global Scales
 var y = d3.scaleLinear()
-  .domain([0.5,7])
+  .domain([0,7])
   .range([0, 300]);
 
 // symbology Scales
@@ -96,6 +96,12 @@ function init(query,data, min_max,firstQuery) {
 
   var xAxis = d3.axisTop(x)
 
+  var yAxis = d3.axisLeft(y)
+      .tickFormat( function(index) {
+        var labels = ["","Light 1","Light 2","Light 3","Light 4","Light 5","Light 6" ];
+        return labels[index];
+      })
+
   var svg = d3.select('#light_chart').append("svg")
     .attr("class","svg_chart")
     .attr("width", width + margin.left + margin.right)
@@ -105,13 +111,20 @@ function init(query,data, min_max,firstQuery) {
 
   var chartCont = svg.append("g")
       .attr("class", "chartCont")
-      .attr("x", 40)
+      // .attr("x", 100)
 
   hideLoader()
       
   chartCont.append("g")
-      .attr("class", "x axis")
+      .attr("class", "light x axis")
       .call(xAxis)
+
+  chartCont.append("g")
+      .attr("class", "light y axis")
+      .call(yAxis)
+      .selectAll("text")  
+        .style("text-anchor", "end")
+        .attr("dx", "-1.5em")
 
   var dotsCont = chartCont.append("g")
       .attr("class", "dotsCont")
@@ -171,47 +184,28 @@ function createSymbology(svg){
       .append("g")
         .attr("transform", "translate(" + 30 + "," + margin.top + ")");
 
-  var howToCont = symbologyCont.append("g")
-    .attr("class","howToCont")
-    .attr("x",0)
-  howToCont.append("text")
-    .attr("class","howToTittle")
-    .text("HOW TO READ IT:")
-  howToCont.append("text")
-    .attr("class","howToExp")
-    .attr("y",30)
-    .text("The size of the circles represents the consumption in KWh;")
-  howToCont.append("text")
-    .attr("class","howToExp")
-    .attr('y', 45)
-    .text("the color represents the amount of times the motion sensor")
-  howToCont.append("text")
-    .attr("class","howToExp")
-    .attr('y', 60)
-    .text("was fired. Hover over the symbology to filter data quickly.")
-
   var motionSensing = symbologyCont.append("g")
     .attr("class","motionSensing")
   motionSensing.append("text")
-    .attr("x",400)
+    .attr("x",10)
     .attr("class","howToTittle")
     .text("MOTION SENSING:")
   motionSensing.append("text")
-    .attr("x",400)
+    .attr("x",10)
     .attr("y", 60)
     .attr("class","minMotion")
   motionSensing.append("text")
-    .attr("x",630)
+    .attr("x",240)
     .attr("y", 60)
     .attr("class","maxMotion")
   var motionSymbology = motionSensing.append("g")
-    .attr("x",400)
+    .attr("x",10)
 
   motionSymbology.selectAll(".bar")
       .data(colorsCodes)
     .enter().append("rect")
       .style("opacity", 0)
-      .attr("x",function(d,i){ return xColors(i) + 400 })
+      .attr("x",function(d,i){ return xColors(i) + 10 })
       .attr('y', 30)
       .attr("width",40)
       .attr("height",12)
@@ -235,26 +229,26 @@ function createSymbology(svg){
   var consumptionCont = symbologyCont.append("g")
     .attr("class","consumptionCont")
   consumptionCont.append("text")
-    .attr("x",720)
+    .attr("x",320)
     .attr("class","howToTittle")
     .text("CONSUMPTION:")
   consumptionCont.append("text")
-    .attr("x",720)
+    .attr("x",320)
     .attr("y", 60)
     .attr("class","minConsum")
   consumptionCont.append("text")
-    .attr("x",880)
+    .attr("x",480)
     .attr("y", 60)
     .attr("class","maxConsum")
   var consumptionSymbology = consumptionCont.append("g")
-    .attr("x",720)
+    .attr("x",320)
 
   var consumptionData = [{size:"min",num:3},{size:"low",num:6},{size:"mid",num:9},{size:"max",num:12}]
   consumptionSymbology.selectAll(".dot_symbology")
       .data(consumptionData)
     .enter().append("circle")
       .style("opacity", 0)
-      .attr("cx",function(d,i){ return xConsumptionPos(i) + 730 })
+      .attr("cx",function(d,i){ return xConsumptionPos(i) + 330 })
       .attr("cy", function(d,i){ return 35 - (i * 3 )})
       .attr("r", function(d,i){ return xConsumption(d.num) })
       .style("fill", "#363f49")

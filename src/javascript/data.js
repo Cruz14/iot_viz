@@ -156,7 +156,6 @@ var calbackMotion = function(XMLResult){
 	max_min.min_motion = minMotionValue;
 	max_min.max_motion = maxMotionValue;
 	max_min.max_motion_obj = maxObjMotion;
-	console.log(max_min.max_motion_obj)
 	run();
 }
 

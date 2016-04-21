@@ -83,11 +83,25 @@ svg {
   font: 10px sans-serif;
 }
 
-.axis line,
-.axis path {
+.light.axis line,
+.light.axis path {
   fill: none;
   // stroke: #f3f3f3;
   // shape-rendering: crispEdges;
+}
+
+.stroked.axis.x line,
+.stroked.axis.x path {
+  fill: none;
+  // stroke: #f3f3f3;
+  // shape-rendering: crispEdges;
+}
+
+.stroked.axis.y line,
+.stroked.axis.y path {
+  // fill: none;
+  // stroke: #f3f3f3;
+  shape-rendering: crispEdges;
 }
 
 .axis text {
@@ -114,19 +128,23 @@ div.tooltip {
 // symbology
 
 .howToCont{
+  width: 50%;
+  margin-left: 30px;
+  margin-bottom: 40px;
+  color: #b2b2b2;
   .howToTittle{
-    fill:#b2b2b2
+    margin-bottom: 10px;
+    font-size: 14px;
   } 
+  .howToExp{
+    font-size: 13px;
+    line-height: 18px;
+  }
 }
 
 .howToTittle{
   font-size: 14px;
-  fill:#f6f6f6
-}
-
-.howToExp{
-  font-size: 12px;
-  fill:#b2b2b2
+  fill: #b2b2b2;
 }
 
 .minConsum,.maxConsum,.minMotion,.maxMotion{
@@ -142,4 +160,4 @@ div.tooltip {
   padding-top: 150px;
 }
 
-
+path { shape-rendering: auto; }
