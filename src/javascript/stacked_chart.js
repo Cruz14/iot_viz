@@ -3,11 +3,11 @@ var variableWidthSTR = d3.select("body").style("width");
 var variableWidth = parseInt(variableWidthSTR.substring(0, variableWidthSTR.length - 2));
 var _ = require('lodash');
 
-var margin = {top: 20, right: 60, bottom: 30, left: 100},
+var margin = {top: 20, right: 60, bottom: 10, left: 140},
     width = variableWidth - margin.left - margin.right,
-    height = 100 - margin.top - margin.bottom;
+    height = 140 - margin.top - margin.bottom;
 
-var colors = ["#CCB339 ","#8D9FE1 ","#73CC57 ","#E07FC8 ","#4EC7BE ","#EB7A53 "];
+var colors = ["#63DC3B", "#DE3C76", "#449C2D", "#DE4735", "#9CBB1C", "#D07717"];
 
 function init(query,data, min_max,firstQuery) {
 
@@ -24,12 +24,12 @@ function init(query,data, min_max,firstQuery) {
 	var motionScale = d3.scalePow()
 		.exponent(5)
 	    .domain([min_max.min_motion, min_max.max_motion])
-	    .range([height,0])
+	    .range([height,40])
 
 	var watsScale = d3.scalePow()
 		.exponent(5)
 	    .domain([min_max.min_wats, min_max.max_wats])
-	    .range([height ,0])
+	    .range([height,40])
 
 	var colorScale = d3.scaleLinear()
 	  .range(0,5)
@@ -73,28 +73,33 @@ function init(query,data, min_max,firstQuery) {
 	svgUp.append("g")
       .attr("class", "stroked x axis")
       .call(xAxis)
-  // svgUp.append("g")
-  //     .attr("class", "stroked y axis")
-  //     .call(yAxis)
+
 
 	svgUp.append("circle")
 		.datum(min_max.max_wats_obj)
 		.attr("cx", function(d){ return x(new Date(d.time)) } )
 		.attr("cy", function(d){ return watsScale(d.wats) } )
 		.attr("r", 5)
-		.attr("fill", "red")
+		.attr("fill", "#d19b13")
 
 	svgUp.append("text")
 		.datum(min_max.max_wats_obj)
 		.attr("x", function(d){ return x(new Date(d.time)) + 10 } )
-		.attr("y", function(d){ return watsScale(d.wats) }  )
-		.text(function(d){ return d.wats.toFixed(2) })
-		.attr("fill", "red")
+		.attr("y", function(d){ return watsScale(d.wats) - 10 } )
+		.text(function(d){ return "Max: " + d.wats.toFixed(2) + " kWh" })
+		.attr("fill", "#414042")
+
+	svgUp.append("text")
+		.attr("x", - 110)
+		.attr("y", 30 )
+		.text("CONSUMPTION")
+		.attr("fill", "#414042")
+		.style("font-size", 13)
 
 	var svgDown = d3.select("#stacked_chart").append("svg")
 			.attr("class","svg_chart")
 		    .attr("width", width + margin.left + margin.right)
-		    .attr("height", height + margin.top + margin.bottom)
+		    .attr("height", height + margin.top + margin.bottom + 60)
 		  .append("g")
 		    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -116,14 +121,21 @@ function init(query,data, min_max,firstQuery) {
 		.attr("cx", function(d){ return x(new Date(d.date)) } )
 		.attr("cy", function(d){ return motionScale(d.motion) } )
 		.attr("r", 5)
-		.attr("fill", "red")
+		.attr("fill", "#d19b13")
 
 	svgDown.append("text")
 		.datum(min_max.max_motion_obj)
 		.attr("x", function(d){ return x(new Date(d.date)) + 10} )
-		.attr("y", function(d){ return motionScale(d.motion) }  )
-		.text(function(d){ return d.motion })
-		.attr("fill", "red")
+		.attr("y", function(d){ return motionScale(d.motion) - 10 }  )
+		.text(function(d){ return "Max: " + d.motion + " times"})
+		.attr("fill", "#414042")
+
+	svgDown.append("text")
+		.attr("x", - 110)
+		.attr("y", 30 )
+		.text("MOTION")
+		.attr("fill", "#414042")
+		.style("font-size", 13)
 }
 
 

@@ -2,7 +2,7 @@
 
 body{
   font-family: sans-serif;
-  background-color: #363f49;
+  background-color: #f2f2f2;;
   margin: 0px;
   padding: 0px;
 }
@@ -61,7 +61,7 @@ header{
 
 .chart_tittle {
   .text{
-    color: #f6f6f6;
+    color: #414042;
     font-weight: 500;
     margin-top: 30px;
     margin-bottom: 40px;
@@ -106,7 +106,7 @@ svg {
 
 .axis text {
   font-size: 12px;
-  fill: #a5a5a5;
+  fill: #6d6e71;
   cursor: move;
 }
 
@@ -118,8 +118,8 @@ div.tooltip {
     padding: 8px;
     padding-left: 12px;      
     font: 12px sans-serif;    
-    background: rgba(242, 242, 242, 0.95); 
-    color: #000;
+    background: rgba(64, 64, 64, 0.95); 
+    color: #f2f2f2;
     border: 0px;    
     border-radius: 4px;     
     pointer-events: none;     
@@ -128,23 +128,66 @@ div.tooltip {
 // symbology
 
 .howToCont{
+  float: left;
+  display: inline-block;
   width: 50%;
-  margin-left: 30px;
-  margin-bottom: 40px;
-  color: #b2b2b2;
+  padding-left: 30px;
+  margin-bottom: 35px;
+  &.lights{
+    margin-bottom: 20px
+  }
   .howToTittle{
+    color: #414042;
     margin-bottom: 10px;
     font-size: 14px;
   } 
   .howToExp{
+    color: #6d6e71;
     font-size: 13px;
     line-height: 18px;
   }
 }
 
+.ligth_list{
+  padding: 0;
+  li{
+    color: #6d6e71;
+    font-size: 13px;
+    padding-bottom: 5px;
+    margin-right: 20px;
+    display: inline-block;
+    list-style-type: none;
+    &:nth-child(1) span{
+      background-color: #63DC3B;
+    }
+    &:nth-child(2) span{
+      background-color: #DE3C76;
+    }
+    &:nth-child(3) span{
+      background-color: #449C2D;
+    }
+    &:nth-child(4) span{
+      background-color: #DE4735;
+    }
+    &:nth-child(5) span{
+      background-color: #9CBB1C;
+    }
+    &:nth-child(6) span{
+      background-color: #D07717;
+    }
+  }
+  span{
+      margin-bottom: 3px;
+      display: inline-block;
+      width: 25px;
+      height: 3px;
+      background-color:red;
+    }
+}
+
 .howToTittle{
   font-size: 14px;
-  fill: #b2b2b2;
+  fill: #414042;
 }
 
 .minConsum,.maxConsum,.minMotion,.maxMotion{
@@ -158,6 +201,9 @@ div.tooltip {
   width: 100%;
   text-align: center;
   padding-top: 150px;
+  .line-scale > div{
+    background-color: #292f3a;
+  }
 }
 
-path { shape-rendering: auto; }
+// path { shape-rendering: auto; }

@@ -2,7 +2,7 @@ var d3 = require('d3');
 var variableWidthSTR = d3.select("body").style("width");
 var variableWidth = parseInt(variableWidthSTR.substring(0, variableWidthSTR.length - 2));
 
-var margin = {top: 20, right: 60, bottom: 30, left: 100},
+var margin = {top: 20, right: 60, bottom: 30, left: 140},
     width = variableWidth - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
@@ -30,26 +30,27 @@ var xConsumption = d3.scaleLinear()
     .domain([0,4])
     .range([0, 4]);
 
-var colorsCodes = ['#939393','#fef0d9','#fdd49e','#fc8d59','#e34a33','#b30000'];
+var colorsCodes = ['#b3b3b3','#fedb72','#fec44f','#fe9929','#ec7014','#cc4c02'];
+
 
 function colorSelection(num){
   if (num == 0 ) {
-    return '#939393';
+    return colorsCodes[0];
   }
   if (num >= 1 && num <= 30){
-    return '#fef0d9';
+    return colorsCodes[1];
   }
   if (num > 30 && num <=60 ){
-    return '#fdd49e';
+    return colorsCodes[2];
   }
   if (num > 60 && num <=90){
-    return '#fc8d59';
+    return colorsCodes[3];
   }
   if (num > 90 && num <=120){
-    return '#e34a33';
+    return colorsCodes[4];
   }
   if (num > 120) {
-    return '#b30000';
+    return colorsCodes[5];
   }
 }
 
@@ -124,7 +125,7 @@ function init(query,data, min_max,firstQuery) {
       .call(yAxis)
       .selectAll("text")  
         .style("text-anchor", "end")
-        .attr("dx", "-1.5em")
+        .attr("dx", "-60px")
 
   var dotsCont = chartCont.append("g")
       .attr("class", "dotsCont")
@@ -180,18 +181,18 @@ function createSymbology(svg){
   var symbologyCont = d3.select("#symbologyContainer").append("svg")
       .attr("class","svg_symbology")
       .attr("width", width + margin.left + margin.right)
-      .attr("height", 120)
+      .attr("height", 100)
       .append("g")
         .attr("transform", "translate(" + 30 + "," + margin.top + ")");
 
   var motionSensing = symbologyCont.append("g")
     .attr("class","motionSensing")
   motionSensing.append("text")
-    .attr("x",10)
+    .attr("x",0)
     .attr("class","howToTittle")
     .text("MOTION SENSING:")
   motionSensing.append("text")
-    .attr("x",10)
+    .attr("x",0)
     .attr("y", 60)
     .attr("class","minMotion")
   motionSensing.append("text")
@@ -199,13 +200,13 @@ function createSymbology(svg){
     .attr("y", 60)
     .attr("class","maxMotion")
   var motionSymbology = motionSensing.append("g")
-    .attr("x",10)
+    .attr("x",0)
 
   motionSymbology.selectAll(".bar")
       .data(colorsCodes)
     .enter().append("rect")
       .style("opacity", 0)
-      .attr("x",function(d,i){ return xColors(i) + 10 })
+      .attr("x",function(d,i){ return xColors(i) })
       .attr('y', 30)
       .attr("width",40)
       .attr("height",12)
@@ -213,7 +214,7 @@ function createSymbology(svg){
       .on("mouseover", function(d,i) {
             d3.selectAll(".dot")
               .transition()
-              .style("opacity", 0.1)
+              .style("opacity", 0.2)
             d3.selectAll(".c" + colorsCodes[i].substr(1))
               .transition()
               .style("opacity", 1)
@@ -273,7 +274,7 @@ function createSymbology(svg){
       .on("mouseover", function(d,i) {
             d3.selectAll(".dot")
               .transition()
-              .style("opacity", 0.1)
+              .style("opacity", 0.2)
             d3.selectAll("."+d.size)
               .transition()
               .style("opacity", 1)
