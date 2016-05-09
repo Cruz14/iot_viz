@@ -1,28 +1,27 @@
 
 var lightChart = require('./light_chart');
 var stackedChart = require('./stacked_chart.js');
-// var d3 = require('d3');
 var d3_request = require('d3-request');
 _ = require('lodash');
 
-var lightURL9H = 'http://influxdb02.prd.aws.smartvenue.io:8086/query?u=volteodba&p=V0lt301nflux&db=svdata&q=SELECT%20MEAN(brightness)%20AS%20brightness%2C%20MEAN(power)%20AS%20power%20FROM%20%22location-feed%22%20WHERE%20time%20%3E%20now()%20-%209h%20GROUP%20BY%20time(15m)%2C%20sensorId%20FILL(previous)&precision=ms';
-var motionURL9H = 'http://influxdb02.prd.aws.smartvenue.io:8086/query?u=volteodba&p=V0lt301nflux&db=svdata&q=SELECT%20COUNT(DISTINCT(motion))%20%20AS%20motion%20FROM%20%22location-feed%22%20WHERE%20time%20%3E%20now()%20-%209h%20GROUP%20BY%20time(15m)%2C%20sensorId%20%20FILL(none)&precision=ms';
+var lightURL9H = 'http://influxdb02.prd.aws.smartvenue.io:8086/query?db=svdata&q=SELECT%20MEAN(brightness)%20AS%20brightness%2C%20MEAN(power)%20AS%20power%20FROM%20%22location-feed%22%20WHERE%20time%20%3E%20now()%20-%209h%20GROUP%20BY%20time(15m)%2C%20sensorId%20FILL(previous)&precision=ms';
+var motionURL9H = 'http://influxdb02.prd.aws.smartvenue.io:8086/query?db=svdata&q=SELECT%20COUNT(DISTINCT(motion))%20%20AS%20motion%20FROM%20%22location-feed%22%20WHERE%20time%20%3E%20now()%20-%209h%20GROUP%20BY%20time(15m)%2C%20sensorId%20%20FILL(none)&precision=ms';
 
-var lightURL24H = 'http://influxdb02.prd.aws.smartvenue.io:8086/query?u=volteodba&p=V0lt301nflux&db=svdata&q=SELECT%20MEAN(brightness)%20AS%20brightness%2C%20MEAN(power)%20AS%20power%20FROM%20%22location-feed%22%20WHERE%20time%20%3E%20now()%20-%2024h%20GROUP%20BY%20time(1h)%2C%20sensorId%20FILL(previous)&precision=ms'
+var lightURL24H = 'http://influxdb02.prd.aws.smartvenue.io:8086/query?db=svdata&q=SELECT%20MEAN(brightness)%20AS%20brightness%2C%20MEAN(power)%20AS%20power%20FROM%20%22location-feed%22%20WHERE%20time%20%3E%20now()%20-%2024h%20GROUP%20BY%20time(1h)%2C%20sensorId%20FILL(previous)&precision=ms'
 
-var motionURL24H = 'http://influxdb02.prd.aws.smartvenue.io:8086/query?u=volteodba&p=V0lt301nflux&db=svdata&q=SELECT%20COUNT(DISTINCT(motion))%20%20AS%20motion%20FROM%20%22location-feed%22%20WHERE%20time%20%3E%20now()%20-%2024h%20GROUP%20BY%20time(1h)%2C%20sensorId%20%20FILL(none)&precision=ms';
+var motionURL24H = 'http://influxdb02.prd.aws.smartvenue.io:8086/query?db=svdata&q=SELECT%20COUNT(DISTINCT(motion))%20%20AS%20motion%20FROM%20%22location-feed%22%20WHERE%20time%20%3E%20now()%20-%2024h%20GROUP%20BY%20time(1h)%2C%20sensorId%20%20FILL(none)&precision=ms';
 
-var lightURL72H = 'http://influxdb02.prd.aws.smartvenue.io:8086/query?u=volteodba&p=V0lt301nflux&db=svdata&q=SELECT%20MEAN(brightness)%20AS%20brightness%2C%20MEAN(power)%20AS%20power%20FROM%20%22location-feed%22%20WHERE%20time%20%3E%20now()%20-%2072h%20GROUP%20BY%20time(3h)%2C%20sensorId%20FILL(previous)&precision=ms'
+var lightURL72H = 'http://influxdb02.prd.aws.smartvenue.io:8086/query?db=svdata&q=SELECT%20MEAN(brightness)%20AS%20brightness%2C%20MEAN(power)%20AS%20power%20FROM%20%22location-feed%22%20WHERE%20time%20%3E%20now()%20-%2072h%20GROUP%20BY%20time(3h)%2C%20sensorId%20FILL(previous)&precision=ms'
 
-var motionURL72H = 'http://influxdb02.prd.aws.smartvenue.io:8086/query?u=volteodba&p=V0lt301nflux&db=svdata&q=SELECT%20COUNT(DISTINCT(motion))%20%20AS%20motion%20FROM%20%22location-feed%22%20WHERE%20time%20%3E%20now()%20-%2072h%20GROUP%20BY%20time(3h)%2C%20sensorId%20%20FILL(none)&precision=ms';
+var motionURL72H = 'http://influxdb02.prd.aws.smartvenue.io:8086/query?db=svdata&q=SELECT%20COUNT(DISTINCT(motion))%20%20AS%20motion%20FROM%20%22location-feed%22%20WHERE%20time%20%3E%20now()%20-%2072h%20GROUP%20BY%20time(3h)%2C%20sensorId%20%20FILL(none)&precision=ms';
 
-var lightURL120H = 'http://influxdb02.prd.aws.smartvenue.io:8086/query?u=volteodba&p=V0lt301nflux&db=svdata&q=SELECT%20MEAN(brightness)%20AS%20brightness%2C%20MEAN(power)%20AS%20power%20FROM%20%22location-feed%22%20WHERE%20time%20%3E%20now()%20-%20120h%20GROUP%20BY%20time(6h)%2C%20sensorId%20FILL(previous)&precision=ms'
+var lightURL120H = 'http://influxdb02.prd.aws.smartvenue.io:8086/query?db=svdata&q=SELECT%20MEAN(brightness)%20AS%20brightness%2C%20MEAN(power)%20AS%20power%20FROM%20%22location-feed%22%20WHERE%20time%20%3E%20now()%20-%20120h%20GROUP%20BY%20time(6h)%2C%20sensorId%20FILL(previous)&precision=ms'
 
-var motionURL120H = 'http://influxdb02.prd.aws.smartvenue.io:8086/query?u=volteodba&p=V0lt301nflux&db=svdata&q=SELECT%20COUNT(DISTINCT(motion))%20%20AS%20motion%20FROM%20%22location-feed%22%20WHERE%20time%20%3E%20now()%20-%20120h%20GROUP%20BY%20time(6h)%2C%20sensorId%20%20FILL(none)&precision=ms';
+var motionURL120H = 'http://influxdb02.prd.aws.smartvenue.io:8086/query?db=svdata&q=SELECT%20COUNT(DISTINCT(motion))%20%20AS%20motion%20FROM%20%22location-feed%22%20WHERE%20time%20%3E%20now()%20-%20120h%20GROUP%20BY%20time(6h)%2C%20sensorId%20%20FILL(none)&precision=ms';
 
-var lightURL1M = 'http://influxdb02.prd.aws.smartvenue.io:8086/query?u=volteodba&p=V0lt301nflux&db=svdata&q=SELECT%20MEAN(brightness)%20AS%20brightness%2C%20MEAN(power)%20AS%20power%20FROM%20%22location-feed%22%20WHERE%20time%20%3E%20now()%20-%204w%20GROUP%20BY%20time(24h)%2C%20sensorId%20FILL(previous)&precision=ms'
+var lightURL1M = 'http://influxdb02.prd.aws.smartvenue.io:8086/query?db=svdata&q=SELECT%20MEAN(brightness)%20AS%20brightness%2C%20MEAN(power)%20AS%20power%20FROM%20%22location-feed%22%20WHERE%20time%20%3E%20now()%20-%204w%20GROUP%20BY%20time(24h)%2C%20sensorId%20FILL(previous)&precision=ms'
 
-var motionURL1M = 'http://influxdb02.prd.aws.smartvenue.io:8086/query?u=volteodba&p=V0lt301nflux&db=svdata&q=SELECT%20COUNT(DISTINCT(motion))%20%20AS%20motion%20FROM%20%22location-feed%22%20WHERE%20time%20%3E%20now()%20-%204w%20GROUP%20BY%20time(24h)%2C%20sensorId%20%20FILL(none)&precision=ms';
+var motionURL1M = 'http://influxdb02.prd.aws.smartvenue.io:8086/query?db=svdata&q=SELECT%20COUNT(DISTINCT(motion))%20%20AS%20motion%20FROM%20%22location-feed%22%20WHERE%20time%20%3E%20now()%20-%204w%20GROUP%20BY%20time(24h)%2C%20sensorId%20%20FILL(none)&precision=ms';
 
 var lightReady = false;
 var motionReady = false;
@@ -53,6 +52,7 @@ var firstQuery = false;
 function queryLight(url){
 	lightReady = false;
 	d3_request.request(url)
+		.header("Authorization", "Basic dm9sdGVvZGVtbzp2azE2ZDNtMA==")
 		.mimeType("application/json")
 		.response(function(xhr) { return JSON.parse(xhr.responseText); })
 		.on("error", function(error) { callback(error); })
@@ -94,26 +94,25 @@ var calbackLight = function(XMLResult){
         newArrLight.push(obj);
       }
    }
-	lightReady = true;
 	var minObjWats = _.minBy(newArrLight, function(o) { return o.wats; })
 	minWatsValue = minObjWats.wats;
 	var maxObjWats = _.maxBy(newArrLight, function(o) { return o.wats; })
 	maxWatsValue = maxObjWats.wats;
 	var sumObjWats = Math.round( _.sumBy(newArrLight, function(o) { return o.wats; }));
 	var meanObjBrig = Math.round( _.meanBy(newArrLight, function(o) { return o.brightness; }));
-
 	max_min.min_wats = minWatsValue;
 	max_min.max_wats = maxWatsValue;
 	max_min.max_wats_obj = maxObjWats;
 	max_min.sum_wats = sumObjWats;
 	max_min.mean_brightness = meanObjBrig;
-
+	lightReady = true;
 	run();
 }
 
 function queryMotion(url){
 	motionReady = false;
 	d3_request.request(url)
+		.header("Authorization", "Basic dm9sdGVvZGVtbzp2azE2ZDNtMA==")
 		.mimeType("application/json")
 		.response(function(xhr) { return JSON.parse(xhr.responseText); })
 		.on("error", function(error) { callback(error); })
@@ -148,7 +147,6 @@ var calbackMotion = function(XMLResult){
 			newArrMotion.push(obj);
 		}
 	}
-	motionReady = true;
 	var minObjMotion = _.minBy(newArrMotion, function(o) { return o.motion; })
 	minMotionValue = minObjMotion.motion;
 	var maxObjMotion = _.maxBy(newArrMotion, function(o) { return o.motion; })
@@ -156,6 +154,7 @@ var calbackMotion = function(XMLResult){
 	max_min.min_motion = minMotionValue;
 	max_min.max_motion = maxMotionValue;
 	max_min.max_motion_obj = maxObjMotion;
+	motionReady = true;
 	run();
 }
 

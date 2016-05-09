@@ -4,7 +4,7 @@ On terminal:
 
 ```
 // clone repo
-$ git clone git@github.com:Cruz14/iot_viz.git
+$ git clone https://ccruz_volteo@bitbucket.org/volteo/viz_lighting.git
 
 // install dependecies
 $ npm i .

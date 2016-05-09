@@ -16,39 +16,35 @@ function toggleActiveChart(){
       $(".nav_item").removeClass('active');
       $(this).toggleClass('active');
       var time = $(this).data("time");
-      if (time == "_9h") {
-        removeChart();
-        Data._9hQuery(false);
-      }
-      if (time == "_24h") {
-        removeChart();
-        Data._1dQuery(false);
-      }
-      if (time == "_72h") {
-        removeChart();
-        Data._3dQuery(false);
-      }
-      if (time == "_120h") {
-        removeChart();
-        Data._5dQuery(false);
-      }
-      if (time == "_1m") {
-        removeChart();
-        Data._1mQuery(false);
-      }
+      removeChart();
+      changeDate(time);
     }
   })
 }
 
 function removeChart(){
-  d3.selectAll(".dot")
-          .transition()
-          // .duration(750)
-          .style("opacity","0")
-          .on("end",function(){
-            d3.selectAll(".svg_chart").remove();
-            $('.loader').show();
-          });
+  d3.selectAll(".svg_chart").remove();
+  $('.loader').show();
+}
+
+function changeDate(time){
+  switch (time) {
+    case "_9h":
+        Data._9hQuery(false);
+        break;
+    case "_24h":
+        Data._1dQuery(false);
+        break; 
+    case "_72h":
+        Data._3dQuery(false);
+        break; 
+    case "_120h":
+        Data._5dQuery(false);
+        break; 
+    case "_1m":
+        Data._1mQuery(false);
+        break;  
+  }
 }
 
 toggleActiveChart()
